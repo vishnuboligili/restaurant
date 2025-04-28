@@ -1,0 +1,104 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+*{
+    font-family: 'Poppins', sans-serif;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+body{
+    background: #FFA07A;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.container{
+    background:#fff;
+    height: 480px;
+    width: 750px;
+    border-radius: 20px;
+    /* padding: 50px; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+}
+.container .login_form{
+    width: 65%;
+}
+h1{
+    text-align: center;
+    margin-bottom: 10px;
+}
+.input-box{
+    position: relative;
+    margin: 30px 0;
+}
+
+.input-box input{
+    width: 100%;
+    padding: 13px 30px 13px 20px;
+    background: #eee;
+    border-radius: 8px;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    color: #333;
+    font-weight: 500;
+}
+.input-box input::placeholder{
+    color: #888;
+    font-weight: 400;
+}
+#open{
+    display: none;
+}
+#close{
+    display: block;
+}
+.input-box i{
+    position: absolute;
+    top: 15px;
+    right: 5px;
+}
+.forgot-link{
+    text-align: center;
+    margin-bottom: 10px;
+}
+.forgot-link a{
+    text-decoration: none;
+    color: rgb(20, 6, 6);
+}
+.btn{
+    height: 40px;
+    width: 100%;
+    background: #666666;
+    border-radius: 8px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+.btn:hover{
+    background:#555555;
+}
+.login_form p{
+    font-size: 0.9rem;
+    text-align: center;
+}
+.login_form .social-icons{
+    margin: 8px;
+    text-align: center;
+}
+.social-icons a{
+    display: inline-flex;
+    text-decoration: none;
+    padding: 10px;
+    border: solid 2px #ccc;
+    border-radius: 8px;
+    font-size: 24px;
+    color: #333;
+    margin: 0 8px;
+}
+
+

@@ -1,0 +1,117 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+*{
+    
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+body{
+    background: #FFA07A;
+    display: flex;
+    min-height: 100vh;
+    align-items: center;
+    justify-content: center;
+    
+}
+.profile{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background: #fff;
+    width: 90%;
+    max-width: 550px;
+    border-radius: 30px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+}
+.profile h1{
+    margin-bottom: 15px;
+}
+/* .profile .photo img{
+    height: 120px;
+    width: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 10px;
+} */
+.profile .photo svg {
+    height: 120px;
+    width: 120px;
+    border-radius: 50%;
+    /* object-fit: cover; */
+    color: #2e4053;
+    margin-bottom: 10px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.profile .photo svg:hover {
+    transform: scale(1.05);
+     /* Increases size by 5% without affecting layout */
+}
+.profile h2{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.profile .profile-table{
+    background: #ecf0f1;
+    width: 90%;
+    padding: 15px;
+    border-radius: 10px;
+}
+.profile-table td{
+    padding: 10px 5px;
+    text-align: left;
+}
+/* .edit-button {
+    width: 90%;
+}
+
+.edit-button button{
+    width: 100%;
+    height: 40px;
+    margin: 30px 0px;
+    background: #ff6347;
+    font-size: 1.2rem;
+} */
+
+.btns {
+    margin: 20px;
+    width: 100%;
+    display: inline-flex;
+    /* align-items: center; */
+    justify-content: center;
+    gap: 40px;
+    padding: 10px;
+}
+.btns button{
+    background: #ff6347;
+    padding: 6px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    /* width: ; */
+}
+.btns button:hover{
+    background-color:#ff4500 ;
+}
+
+
+@media (max-width: 600px) {
+    .profile {
+        width: 100%;
+        margin-top: 100px; /* Adjusted for smaller screens */
+    }
+    .profile-table td {
+        display: block;
+        text-align: center;
+    }
+}
+
+
+
+
+
+
+ 
