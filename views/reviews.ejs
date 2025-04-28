@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= product.name %> - Reviews</title>
+    <!-- <link rel="stylesheet" href="/styles.css"> -->
+     <style>
+        body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #FFA07A;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Product Container */
+.product-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    width: 90%;
+    max-width: 600px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.product-container:hover {
+    transform: scale(1.02);
+}
+
+.product-img {
+    width: 220px;
+    height: 220px;
+    border-radius: 12px;
+    object-fit: cover;
+    margin-bottom: 15px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.product-img:hover {
+    transform: scale(1.05);
+}
+
+.product-details h2 {
+    margin: 10px 0;
+    font-size: 26px;
+    font-weight: bold;
+    color: #333;
+}
+
+.product-details p {
+    margin: 8px 0;
+    font-size: 18px;
+    color: #555;
+}
+
+/* Star Rating */
+.star-rating {
+    display: flex;
+    justify-content: center;
+    margin: 12px 0;
+}
+
+.star {
+    font-size: 24px;
+    color: #ccc;
+    transition: transform 0.3s;
+}
+
+.star.filled {
+    color: gold;
+}
+
+.star.half-filled {
+    background: linear-gradient(to right, gold 50%, #ccc 50%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Reviews */
+.review-title {
+    margin-top: 40px;
+    font-size: 22px;
+    font-weight: bold;
+    text-align: center;
+    color: #333;
+    text-transform: uppercase;
+}
+
+.reviews-container {
+    margin-top: 20px;
+    width: 90%;
+    max-width: 600px;
+}
+
+/* Review Card */
+.review-card {
+    background: white;
+    padding: 15px;
+    margin: 12px 0;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease-in-out;
+}
+
+.review-card:hover {
+    transform: translateY(-5px);
+}
+
+.review-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 8px;
+}
+
+.review-username {
+    font-weight: bold;
+    color: #222;
+    font-size: 16px;
+}
+
+.review-feedback {
+    font-size: 16px;
+    color: #555;
+    background: rgba(0, 0, 0, 0.05);
+    padding: 8px;
+    border-radius: 6px;
+    transition: background 0.3s;
+}
+
+.review-feedback:hover {
+    background: rgba(0, 0, 0, 0.1);
+}
+.back-button {
+    margin-top: 15px;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    background-color: #ff4500;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out, transform 0.2s;
+}
+
+.back-button:hover {
+    background-color: #e63e00;
+    transform: scale(1.05);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .product-container, .reviews-container {
+        width: 95%;
+    }
+
+    .product-img {
+        width: 180px;
+        height: 180px;
+    }
+
+    .star {
+        font-size: 20px;
+    }
+}
+
+     </style>
+</head>
+<body>
+
+    <div class="product-container">
+        <img src="/uploads/<%= product.image %>" alt="<%= product.name %>" class="product-img">
+        <div class="product-details">
+            <h2><%= product.name %></h2>
+            <p>💰 <strong>Price:</strong> $<%= product.price %></p>
+            <div class="star-rating">
+                <% for(let i = 1; i <= 5; i++) { %>
+                    <% if (i <= Math.floor(product.rating)) { %>
+                        <span class="star filled">★</span>
+                    <% } else if (i === Math.ceil(product.rating) && product.rating % 1 !== 0) { %>
+                        <span class="star half-filled">★</span>
+                    <% } else { %>
+                        <span class="star">★</span>
+                    <% } %>
+                <% } %>
+            </div>
+        </div>
+    </div>
+
+    <h3 class="review-title">Customer Reviews</h3>
+    
+    <% if (reviews.length > 0) { %>
+        <div class="reviews-container">
+            <% reviews.forEach(review => { %>
+                <div class="review-card">
+                    <div class="review-header">
+                        <span class="review-username">👤 <%= review.username %></span>
+                        <div class="star-rating">
+                            <% for(let i = 1; i <= 5; i++) { %>
+                                <% if (i <= Math.floor(review.rating)) { %>
+                                    <span class="star filled">★</span>
+                                <% } else if (i === Math.ceil(review.rating) && review.rating % 1 !== 0) { %>
+                                    <span class="star half-filled">★</span>
+                                <% } else { %>
+                                    <span class="star">★</span>
+                                <% } %>
+                            <% } %>
+                        </div>
+                    </div>
+                    
+                    <p class="review-feedback">📝 <strong>Feedback:</strong> <%= review.feedback %></p>
+                </div>
+            <% }) %>
+        </div>
+    <% } else { %>
+        <p class="no-reviews">No reviews yet. Be the first to review this product!</p>
+    <% } %>
+    <button class="back-button" onclick="history.back()">⬅️ Go Back</button>
+
+</body> 
+</html>

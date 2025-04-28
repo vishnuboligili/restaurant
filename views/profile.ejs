@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <link rel="stylesheet" href="/home.css"> -->
+    <link rel="stylesheet" href="/profile.css">
+    <title>Document</title>
+</head>
+<body>
+
+ 
+    <div class="profile">
+        <h1>Profile</h1>
+        <div class="photo">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+            </svg>
+        </div>
+        <h2><%= user %></h2>
+        <table class="profile-table">
+            <tbody>
+                <tr>
+                    <td><strong>Email:</strong></td>
+                    <td><%= email %></td>
+                </tr>
+                <tr>
+                    <td><strong>Mobile:</strong></td>
+                    <% if(mobile) {%>
+                        <td><%= mobile %></td>
+                    <% }else{ %>
+                        <td>None</td>
+                    <% } %>
+                </tr>
+            </tbody>
+        </table>
+        <div class="btns">
+            <a href="/"><button>Home</button></a>
+                <form action="/logout">
+                    <button type="submit">Logout</button>
+                </form>
+                <a href="/edit"><button>Edit Profile</button></a>
+                
+        </div>
+    </div>
+    <script>
+        function showSideBar(){
+            const side=document.querySelector(".sidebar");
+            side.style.display="flex";
+        }
+        function closeSideBar(){
+            const side=document.querySelector(".sidebar");
+            side.style.display="none";
+        }
+    </script>
+</body>
+</html>
+
+  

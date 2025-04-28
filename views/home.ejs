@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/home.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="/slide.css">
+    <link rel="stylesheet" href="/footer.css">
+
+    <style>
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            padding: 40px 20px;
+        }
+
+        .card {
+            width: 250px;
+            height: 320px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .card:hover {
+            transform: scale(1.07);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .card:hover img {
+            transform: scale(1.1);
+        }
+
+        .card .overlay {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 40%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 22px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: height 0.3s ease-in-out;
+        }
+
+        .card:hover .overlay {
+            height: 50%;
+            background: rgba(0, 0, 0, 0.85);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .card {
+                width: 200px;
+                height: 250px;
+            }
+
+            .card .overlay {
+                font-size: 18px;
+            }
+        }
+    </style>
+
+    <title>Document</title>
+</head>
+<body>
+    <nav>
+        <ul class="sidebar">
+            <li onclick=closeSideBar()>
+                <a href="#" class="ho">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#ffffff">
+                        <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/>
+                      </svg>
+                      
+                </a>
+            </li>
+            <li><a href="#" class="ho">SYMBOL</a></li>
+            <li><a href="/" class="ho">HOME</a></li>
+            <li><a href="/veg" class="ho">VEG</a></li>
+            <li><a href="/nonveg" class="ho">NON-VEG</a></li>
+            <li>
+                <% if(use){ %>
+                    <a href="/profile" class="ho">
+                        <!-- <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                        <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+                        </svg> -->
+                        PROFILE
+                    </a>
+                
+                <% }else {%>
+                    <a href="/login" class="ho">
+                        Sign in/Log in
+                    </a>
+                <% } %>
+            </li>
+            <li><a href="/about" class="ho">ABOUNT</a></li>
+            
+            
+        </ul>
+        <ul>
+            <li><a href="#" class="ho">SYMBOL</a></li>
+            <li class="hidemobile"><a class="ho" href="/">HOME</a></li>
+            <li class="hidemobile"><a class="ho" href="/veg">VEG</a></li>
+            <li class="hidemobile"><a class="ho" href="/nonveg">NON-VEG</a></li>
+            <li class="hidemobile"><a class="ho" href="/about">ABOUNT</a></li>
+            <li class="hidemobile">
+                <% if(use){ %>
+                    <a class="ho" href="/profile">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                        <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+                        </svg>
+                    </a>
+                
+                <% }else {%>
+                    <a href="/login" >
+                        <div class="signin">
+                            <div class="si">
+                                Sign in/Log in
+                            </div>
+                        </div>
+                    </a>
+                <% } %>
+            </li>
+            <li><a href="/cart" class="ho"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
+                <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
+              </svg></a>
+            </li>
+            <li class="menu-button" onclick=showSideBar()>
+                <a href="#" class="ho">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="32px" viewBox="0 -960 960 960" width="32px" fill="#ffffff">
+                        <path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z"/>
+                    </svg>
+                </a>
+            </li>
+        
+        </ul>
+    </nav>
+    <main>
+        <img src="/image (5).png" class="slide" alt="">
+        <img src="/image (6).png" class="slide" alt="">
+        <img src="/image (1).png" class="slide" alt="">
+        <img src="/image (2).png" class="slide" alt="">
+      
+        <img src="/image (3).png" class="slide" alt="">
+
+        <img src="/image (4).png" class="slide" alt="">
+        
+        <img src="/image (7).png" class="slide" alt="">
+        <img src="/image (8).png" class="slide" alt="">
+        <img src="/image.png" class="slide" alt="">
+        <div class="nav">
+            <button class="first" onclick="goPrev()">
+                <i class='bx bx-chevron-left'></i>
+            </button>
+            <button class="second" onclick="goNext()">
+                <i class='bx bx-chevron-right'></i>
+            </button>
+        </div>
+    </main>
+    <div class="container">
+        <a href="/veg" class="card">
+            <img src="veg.jpeg" alt="Veg" loading="lazy">
+            <div class="overlay">Veg</div>
+        </a>
+        
+        <a href="/nonveg" class="card">
+            <img src="nonveg.jpg" alt="Non-Veg" loading="lazy">
+            <div class="overlay">Non-Veg</div>
+        </a>
+
+        <a href="/chicken" class="card">
+            <img src="chicken.jpeg" alt="Chicken" loading="lazy">
+            <div class="overlay">Chicken</div>
+        </a>
+
+        <a href="/mutton" class="card">
+            <img src="mutton.jpeg" alt="Mutton" loading="lazy">
+            <div class="overlay">Mutton</div>
+        </a>
+
+        <a href="/seafood" class="card">
+            <img src="seafood.jpeg" alt="Seafood" loading="lazy">
+            <div class="overlay">Seafood</div>
+        </a>
+
+        <a href="/biryani" class="card">
+            <img src="biryani.jpeg" alt="Biryani" loading="lazy">
+            <div class="overlay">Biryani</div>
+        </a>
+    </div>
+    <footer>
+        <div class="footer-container">
+            <div class="footer-content">
+                <!-- Navigation Links -->
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li ><a href="/">Home</a></li>
+                        <li ><a href="/veg">Veg</a></li>
+                        <li ><a href="/nonveg">Non-Veg</a></li>
+                        <li ><a href="/mutton">Mutton</a></li>
+                        <li ><a href="/chicken">Chicken</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>More Options</h3>
+                    <ul>
+                        <li ><a href="/seafood">Seafood</a></li>
+                        <li ><a href="/biryani">Biryani</a></li>
+                        <li ><a href="/about">About</a></li>
+                        <li ><a href="/profile">Profile</a></li>
+                        <li ><a href="/cart">Cart</a></li>
+                    </ul>
+                </div>
+    
+                <div class="footer-section">
+                    <h3>Contact & Staff</h3>
+                    <ul>
+                        <li ><a href="/admin/login">Staff</a></li>
+                        <li ><a href="/contact">Contact Us</a></li>
+                    </ul>
+                </div>
+    
+                <!-- Social Media Icons -->
+                <div class="social-icons">
+                    <a href="#"><i class='bx bxl-instagram'></i></a>
+                    <a href="#"><i class='bx bxl-facebook'></i></a>
+                    <a href="#"><i class='bx bxl-youtube'></i></a>
+                </div>
+            </div>
+    
+            <!-- Copyright -->
+            <p>&copy; 2025 Your Restaurant. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    
+    <script>
+        function showSideBar(){
+            const side=document.querySelector(".sidebar");
+            side.style.display="flex";
+        }
+        function closeSideBar(){
+            const side=document.querySelector(".sidebar");
+            side.style.display="none";
+        }
+    </script>
+    <script src="/slide.js"></script>
+</body>
+</html>
+
+  

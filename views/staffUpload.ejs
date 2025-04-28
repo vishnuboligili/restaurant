@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Staff - Restaurant</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: "Arial", sans-serif;
+        }
+
+        body {
+            background-color: #FFA07A;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .form-container {
+            background: #ffffff;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            width: 380px;
+            text-align: center;
+        }
+
+        .form-container h2 {
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin: 8px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .radio-group {
+            display: flex;
+            justify-content: space-around;
+            margin: 10px 0;
+        }
+
+        .radio-group label {
+            cursor: pointer;
+            font-size: 14px;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            background-color: #FFDAB9;
+        }
+
+        .radio-group input[type="radio"] {
+            display: none;
+        }
+
+        .radio-group input[type="radio"]:checked + label {
+            background: #FF7F50;
+            color: white;
+            border-color: #FF7F50;
+        }
+
+        .button-container {
+            margin-top: 10px;
+        }
+
+        button {
+            width: 100%;
+            background: #FF7F50;
+            color: white;
+            padding: 10px;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            margin-bottom: 10px;
+        }
+
+        button:hover {
+            background: #FF6347;
+        }
+
+        .home-btn {
+            background: #008CBA;
+        }
+
+        .home-btn:hover {
+            background: #0074A2;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="form-container">
+        <h2>Add Staff Member</h2>
+        <form id="staffForm" action="/staffupload" method="POST" enctype="multipart/form-data">
+            <input id="name" type="text" name="name" value="<%= name || '' %>" placeholder="Staff Name" required>
+        
+            <input type="hidden" name="id" value="<%= id || '' %>">
+        
+            <p><strong>Gender:</strong></p>
+            <div class="radio-group">
+                <input type="radio" id="Male" name="gender" value="Male" <%= gender === 'Male' ? 'checked' : '' %> required>
+                <label for="Male">Male</label>
+        
+                <input type="radio" id="Female" name="gender" value="Female" <%= gender === 'Female' ? 'checked' : '' %> required>
+                <label for="Female">Female</label>
+            </div>
+        
+            <input type="number" name="experience" placeholder="Experience (Years)" value="<%= experience || '' %>" required min="0">
+            <input type="text" name="phone" value="<%= phone || '' %>" placeholder="Phone Number" required pattern="[0-9]{10,15}">
+            <input type="number" name="salary" value="<%= salary || '' %>" placeholder="Salary" required min="0">
+            <input type="text" name="role" value="<%= role || '' %>" placeholder="Enter Job Role" required>
+        
+            <div class="file-input">
+                <label>Upload Staff Photo:</label>
+                <input type="file" name="image" accept="image/*">
+                <!-- <% if (image) { %>
+                    <p>Current Image: <img src="/uploads/<%= image %>" alt="Staff Image" width="100"></p>
+                <% } %> -->
+            </div>
+        
+            <div class="button-container">
+                <button type="submit">Upload</button>
+            </div>
+        </form>
+        
+        <button class="home-btn">
+            <a href="/" style="text-decoration: none; color: white;">Home</a>
+        </button>
+    </div>
+
+    <script>
+        window.onload = function() {
+            let genderVal = "<%= gender || '' %>";
+            let genderRadios = document.querySelectorAll("input[name='gender']");
+            
+            genderRadios.forEach(radio => {
+                if (radio.value === genderVal) {
+                    radio.checked = true;
+                }
+            });
+        };
+    
+        document.getElementById("staffForm").addEventListener("submit", function(event) {
+            let name = document.querySelector("input[name='name']").value.trim();
+            let gender = document.querySelector("input[name='gender']:checked");
+            let experience = document.querySelector("input[name='experience']").value.trim();
+            let phone = document.querySelector("input[name='phone']").value.trim();
+            let salary = document.querySelector("input[name='salary']").value.trim();
+            let imageInput = document.querySelector("input[name='image']");
+            let existingImage = "<%= image ? image.trim() : '' %>";
+    
+            // Debugging
+            console.log("DEBUGGING FORM VALUES:");
+            console.log("Name:", name.length > 0 ? name : "NULL");
+            console.log("Gender:", gender ? gender.value : "NULL");
+            console.log("Experience:", experience.length > 0 ? experience : "NULL");
+            console.log("Phone:", phone.length > 0 ? phone : "NULL");
+            console.log("Salary:", salary.length > 0 ? salary : "NULL");
+            console.log("Image Input:", imageInput.files.length > 0 ? "File Uploaded" : "NULL");
+            console.log("Existing Image:", existingImage.length > 0 ? existingImage : "NULL");
+    
+            // Check if any field is null
+            if (!name || !gender || !experience || !phone || !salary || (imageInput.files.length === 0 && existingImage.length === 0)) {
+                event.preventDefault();
+                alert("Please fill out all required fields.");
+            }
+        });
+    </script>
+    
+
+</body>
+</html>

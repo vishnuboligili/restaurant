@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="home.css">
+    <link rel="stylesheet" href="product.css">
+    
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="/footer.css">
+    <style>
+        .quantity-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 8px;
+        }
+    
+        .quantity-container label {
+            font-size: 14px;
+            font-weight: bold;
+        }
+    
+        .quantity-select {
+            padding: 5px 10px;
+            border: 2px solid #ff5733;
+            border-radius: 5px;
+            font-size: 16px;
+            background-color: #fff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+    
+        .quantity-select:hover, .quantity-select:focus {
+            border-color: #e04e2b;
+            background-color: #f8f8f8;
+        }
+    
+        .Cart {
+            display: block;
+            margin-top: 10px;
+            background-color: #ff5733;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-bottom-left-radius:20px;
+            border-bottom-right-radius:20px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.3s ease;
+        }
+    
+        .Cart:hover {
+            background-color: #e04e2b;
+        }
+        .flash-message {
+            position: fixed;
+            top: 20px;
+            right: 20px; /* Move to the right corner */
+            padding: 15px 25px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            max-width: 350px;
+            text-align: left;
+            z-index: 1000;
+            opacity: 1;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .success {
+            background-color: #b7e4c7; /* Brighter Green */
+            color: #155724;
+            border: 1px solid #99d1a1;
+        }
+
+        .error {
+            background-color: #f4a6ab; /* Brighter Red */
+            color: #721c24;
+            border: 1px solid #e57373;
+        }
+        .close-btn {
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-left: 15px;
+            float: right;
+            color: white;
+            background: none;
+            border: none;
+        }
+        .life-line {
+            height: 5px;
+            width: 100%;
+            margin-top: 5px;
+            animation: lifeFade 5s linear forwards;
+        }
+
+        .success-bar {
+            background-color: #218838; /* Darker Green */
+        }
+
+        .error-bar {
+            background-color: #c82333; /* Darker Red */
+        }
+
+        @keyframes lifeFade {
+            from {
+                width: 100%;
+            }
+            to {
+                width: 0%;
+            }
+        }
+        #review-form button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+/* Popup Styles */
+.popup-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+}
+
+.popup-box {
+    position: relative;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 300px;
+    text-align: center;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+}
+.popup-box button{
+    border-radius: 15px;
+    margin-bottom: 5px;
+}
+.popup-close {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    font-size: 24px;
+    cursor: pointer;
+    color: gray;
+    font-weight: bold;
+}
+
+.popup-close:hover {
+    color: black;
+}
+
+
+.stars {
+    display: flex;
+    justify-content: center;
+    margin: 10px 0;
+}
+
+.star {
+    font-size: 30px;
+    cursor: pointer;
+    color: gray;
+    transition: color 0.3s;
+}
+
+.star:hover, .star.active {
+    color: gold;
+}
+
+#review-form textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#review-form button {
+    background: #28a745;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 100%;
+}
+
+#review-form button:hover {
+    background: #218838;
+}
+
+        .popup-box img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+
+        
+        /* Ensure the pop-up and review box have relative positioning */
+        .popup-container, .review-box {
+            position: relative;  /* Important: Keeps the close button inside */
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        /* Large close button inside the box */
+        .popup-close-large {
+            position: absolute;
+            top: 10px;  /* Adjust so it stays inside */
+            right: 10px; /* Keeps it inside the box */
+            font-size: 30px;
+            font-weight: bold;
+            color: black;
+            background: none;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .popup-close-large:hover {
+            transform: scale(1.2);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+    </style>
+    <title>Document</title>
+</head>
+<body>
+    <!-- Flash Messages -->
+    <% if (messages.success) { %>
+        <div class="flash-message success">
+            <span class="close-btn" onclick="closeFlashMessage(this)">&times;</span>
+            <%= messages.success %>
+            <div class="life-line success-bar"></div> 
+        </div>
+    <% } %>
+    
+    <% if (messages.error) { %>
+        <div class="flash-message error">
+            <span class="close-btn" onclick="closeFlashMessage(this)">&times;</span>
+            <%= messages.error %>
+            <div class="life-line error-bar"></div>
+        </div>
+    <% } %>
+    
+    
+    <nav>
+        <ul class="sidebar">
+            <li onclick=closeSideBar()>
+                <a href="#" class="ho">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#ffffff">
+                        <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/>
+                      </svg>
+                      
+                </a>
+            </li>
+            <li><a href="#" class="ho">SYMBOL</a></li>
+            <li><a href="/" class="ho">HOME</a></li>
+            <li><a href="/veg" class="ho">VEG</a></li>
+            <li><a href="/nonveg" class="ho">NON-VEG</a></li>
+            <li>
+                <% if(user){ %>
+                    <a href="/profile" class="ho">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                        <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+                        </svg>
+                    </a>
+                
+                <% }else {%>
+                    <a href="/login" class="ho">
+                        Sign in/Log in
+                    </a>
+                <% } %>
+            </li>
+            <li><a href="/about" class="ho">ABOUNT</a></li>
+            
+            
+        </ul>
+        <ul>
+            <li><a href="#" class="ho">SYMBOL</a></li>
+            <li class="hidemobile"><a class="ho" href="/">HOME</a></li>
+            <li class="hidemobile"><a class="ho" href="/veg">VEG</a></li>
+            <li class="hidemobile"><a class="ho" href="/nonveg">NON-VEG</a></li>
+            <li class="hidemobile"><a class="ho" href="/about">ABOUNT</a></li>
+            <li class="hidemobile">
+                <% if(user){ %>
+                    <a class="ho" href="/profile">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                        <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+                        </svg>
+                    </a>
+                
+                <% }else {%>
+                    <a href="/login" >
+                        <div class="signin">
+                            <div class="si">
+                                Sign in/Log in
+                            </div>
+                        </div>
+                    </a>
+                <% } %>
+            </li>
+            <li><a href="/cart" class="ho"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
+                <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
+              </svg></a>
+            </li>
+            <li class="menu-button" onclick=showSideBar()>
+                <a href="#" class="ho">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="32px" viewBox="0 -960 960 960" width="32px" fill="#ffffff">
+                        <path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z"/>
+                    </svg>
+                </a>
+            </li>
+        
+        </ul>
+    </nav>
+    <div class="gallery">
+        <% dishes.forEach(dish => { %>
+            <div class="content">
+                <div onclick="openPopup('<%= dish.image %>', '<%= dish.name %>', '<%= dish.price %>', 'Delicious food item!', '<%= dish.id %>')">
+                    <img src="/uploads/<%= dish.image %>" alt="<%= dish.name %>">
+                    <h3><%= dish.name %></h3>
+                    <p>Lorem ipsum dolor sit amet consectetur.</p>
+                    <h6>$<%= dish.price %></h6>
+    
+                    <ul class="rating">
+                        <% for (let i = 1; i <= 5; i++) { %>
+                            <% if (i <= Math.floor(dish.rating)) { %>
+                                <li><i class="fa fa-star checked"></i></li>
+                            <% } else if (i - dish.rating < 1) { %>
+                                <li><i class="fa fa-star-half-alt checked"></i></li>
+                            <% } else { %>
+                                <li><i class="fa fa-star"></i></li>
+                            <% } %>
+                        <% } %>
+                    </ul>
+                </div>
+                <form action="/cart/add" method="POST">
+                    <input type="hidden" name="item_id" value="<%= dish.id %>">
+                    <div class="quantity-container">
+                        <label for="quantity_<%= dish.id %>">Quantity:</label>
+                        <select id="quantity_<%= dish.id %>" name="quantity" class="quantity-select">
+                            <% for (let i = 1; i <= dish.count; i++) { %>
+                                <option value="<%= i %>"><%= i %></option>
+                            <% } %>
+                        </select>
+                    </div>
+                    <button type="submit" class="Cart">Add to Cart</button>
+                </form>
+            </div>
+        <% }); %>
+    </div>
+    
+    <!-- Add this inside your <body> tag but outside the .gallery div -->
+        <!-- Pop-up Overlay -->
+    <div id="popup-overlay" class="popup-overlay">
+        <div class="popup-box">
+            <span class="popup-close" onclick="closePopup()">&times;</span>
+            <img id="popup-image" src="" alt="Dish Image">
+            <h3 id="popup-name"></h3>
+            <p id="popup-description"></p>
+            <h6 id="popup-price"></h6>
+            <button onclick="openReviewBox()">Add Review</button>
+            <form action="/view-reviews" method="post">
+                <input type="hidden" id="p_id" name="product_id">
+                <button type="submit" onclick="return validateView()">View Review</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Review Overlay -->
+    <div id="review-overlay" class="popup-overlay">
+        <div class="popup-box">
+            <span class="popup-close" onclick="closeReviewBox()">&times;</span>
+            <h3>Submit Review</h3>
+
+            <div class="stars">
+                <span class="star" data-value="1">&#9733;</span>
+                <span class="star" data-value="2">&#9733;</span>
+                <span class="star" data-value="3">&#9733;</span>
+                <span class="star" data-value="4">&#9733;</span>
+                <span class="star" data-value="5">&#9733;</span>
+            </div>
+
+            <form id="review-form" action="/submit-review" method="POST">
+                <input type="hidden" id="rating" name="rating" value="0">
+                <input type="hidden" id="product_id" name="product_id">
+                <textarea id="feedback" name="feedback" placeholder="Write your feedback..." rows="4" required></textarea>
+                <button type="submit" onclick="return validateForm()">Submit</button>
+            </form>
+        </div>
+    </div>
+
+        
+        
+        
+    <footer>
+        <div class="footer-container">
+            <div class="footer-content">
+                <!-- Navigation Links -->
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/veg">Veg</a></li>
+                        <li><a href="/nonveg">Non-Veg</a></li>
+                        <li><a href="/mutton">Mutton</a></li>
+                        <li><a href="/chicken">Chicken</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>More Options</h3>
+                    <ul>
+                        <li><a href="/seafood">Seafood</a></li>
+                        <li><a href="/biryani">Biryani</a></li>
+                        <li><a href="/about">About</a></li>
+                        <li><a href="/profile">Profile</a></li>
+                        <li><a href="/cart">Cart</a></li>
+                    </ul>
+                </div>
+    
+                <div class="footer-section">
+                    <h3>Contact & Staff</h3>
+                    <ul>
+                        <li><a href="/admin/login">Staff</a></li>
+                        <li><a href="/contact">Contact Us</a></li>
+                    </ul>
+                </div>
+    
+                <!-- Social Media Icons -->
+                <div class="social-icons">
+                    <a href="#"><i class='bx bxl-instagram'></i></a>
+                    <a href="#"><i class='bx bxl-facebook'></i></a>
+                    <a href="#"><i class='bx bxl-youtube'></i></a>
+                </div>
+            </div>
+    
+            <!-- Copyright -->
+            <p>&copy; 2025 Your Restaurant. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            setTimeout(() => {
+                document.querySelectorAll(".flash-message").forEach((msg) => {
+                    msg.style.opacity = "0";
+                    setTimeout(() => msg.remove(), 500);
+                });
+            }, 5000); // Hide after 5 seconds
+        });
+
+        function closeFlashMessage(element) {
+            let parent = element.parentElement;
+            parent.style.opacity = "0";
+            setTimeout(() => parent.remove(), 500);
+        }
+
+
+        function showSideBar(){
+            const side=document.querySelector(".sidebar");
+            side.style.display="flex";
+        }
+        function closeSideBar(){
+            const side=document.querySelector(".sidebar");
+            side.style.display="none";
+        }
+        function closeFlashMessage(element) {
+            const messageBox = element.parentElement;
+            messageBox.style.opacity = "0"; // Fade out
+            setTimeout(() => {
+                messageBox.remove(); // Remove from DOM after fade-out
+            }, 300);
+        }
+        function openPopup(image, name, price, description, dishId) {
+    // Reset previous data
+    document.getElementById("popup-image").src = "/uploads/" + image;
+    document.getElementById("popup-name").textContent = name;
+    document.getElementById("popup-price").textContent = "$" + price;
+    document.getElementById("popup-description").textContent = description;
+
+    // Set dish ID for review
+    document.getElementById("product_id").value = dishId;
+    document.getElementById("p_id").value = dishId;      
+    // Show pop-up
+    document.getElementById("popup-overlay").style.display = "flex";
+}
+
+function closePopup() {
+    document.getElementById("popup-overlay").style.display = "none";
+    document.getElementById("product_id").value = 0;
+    document.getElementById("p_id").value = 0;
+    document.getElementById("feedback").value = "";
+    // document.getElementById("rating").value = 0;
+}
+
+// Open review box and pass dish ID
+function openReviewBox() {
+    document.getElementById("review-overlay").style.display = "flex";
+}
+
+// Close review box
+function closeReviewBox() {
+    document.getElementById("review-overlay").style.display = "none";
+    
+}
+
+// Star Rating System
+const stars = document.querySelectorAll('.star');
+const ratingInput = document.getElementById('rating');
+
+stars.forEach(star => {
+    star.addEventListener('click', function () {
+        let rating = this.getAttribute('data-value');
+        ratingInput.value = rating;
+
+        stars.forEach(s => s.classList.remove('active'));
+        for (let i = 0; i < rating; i++) {
+            stars[i].classList.add('active');
+        }
+    });
+});
+
+// Submit Review
+function validateForm() {
+    let rating = document.getElementById('rating').value;
+    if (rating === "0") {
+        alert("Please select a star rating!");
+        return false;
+    }
+    if (feedback === "") {
+        alert("❌ Please enter your feedback!");
+        return false; // Prevent form submission
+    }
+    return true;
+}
+function validateView() {
+    let rating = document.getElementById("p_id").value ;
+    if (rating === "0") {
+        alert("Please select a star rating!");
+        return false;
+    }
+    
+    return true;
+}
+document.getElementById("p_id").value = dishId;
+    </script>
+</body>
+</html>
+
+  

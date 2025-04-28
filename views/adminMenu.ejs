@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart</title>
+    <!-- <link rel="stylesheet" href="/styles/cart.css" -->
+     <style>
+        /* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+}
+
+/* Cart Container */
+.cart-container {
+    max-width: 800px;
+    margin: 30px auto;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+h1, h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+/* Cart Items */
+.cart-items {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.cart-item {
+    display: flex;
+    align-items: center;
+    background: #fff;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+    justify-content: space-between;
+    transition: transform 0.2s ease-in-out;
+}
+
+.cart-item:hover {
+    transform: scale(1.02);
+}
+
+/* Product Image */
+.cart-item img {
+    width: 90px;
+    height: 90px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-right: 15px;
+    border: 2px solid #ddd;
+}
+
+/* Item Details */
+.item-details {
+    flex-grow: 1;
+}
+
+.item-details h2 {
+    font-size: 18px;
+    margin: 0;
+    color: #333;
+    font-weight: bold;
+}
+
+.price {
+    font-size: 16px;
+    color: #28a745;
+    font-weight: bold;
+}
+
+.count {
+    font-size: 14px;
+    color: #666;
+}
+
+/* Action Buttons */
+.actions {
+    display: flex;
+    gap: 10px;
+}
+
+button {
+    padding: 8px 14px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    transition: background 0.2s ease-in-out, transform 0.1s;
+}
+
+/* Update Button */
+.update-btn {
+    background-color: #ffc107;
+    color: black;
+}
+
+.update-btn:hover {
+    background-color: #e0a800;
+    transform: scale(1.05);
+}
+
+/* Delete Button */
+.delete-btn {
+    background-color: #dc3545;
+    color: white;
+}
+
+.delete-btn:hover {
+    background-color: #c82333;
+    transform: scale(1.05);
+}
+
+/* Insert Item Form */
+.insert-form {
+    margin-top: 30px;
+    text-align: center;
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.insert-form input {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin: 8px 0;
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.insert-form button {
+    background-color: #007bff;
+    color: white;
+    padding: 12px 16px;
+    font-size: 16px;
+}
+
+.insert-form button:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    .cart-item {
+        flex-direction: column;
+        text-align: center;
+        padding: 15px;
+    }
+
+    .cart-item img {
+        margin-bottom: 10px;
+    }
+
+    .actions {
+        justify-content: center;
+    }
+}
+
+     </style>
+</head>
+<body>
+    <div class="cart-container">
+        <h1>Your Cart</h1>
+        <div class="cart-items">
+            <% products.forEach(item => { %>
+                <div class="cart-item">
+                    <img src="/uploads/<%= item.image %>" alt="<%= item.name %>">
+                    <div class="item-details">
+                        <h2><%= item.name %></h2>
+                        <p class="price">$<%= item.price %></p>
+                        <p class="count">Quantity: <%= item.count %></p>
+                    </div>
+                    <div class="actions">
+                        <form action="/admin/menu/update" method="post">
+                            <input type="text" name="id" value="<%= item.id %>" hidden>
+                            <button class="update-btn" type="submit">Update</button>
+                        </form>
+                        <form action="/admin/menu/delete" method="post">
+                            <input type="text" name="id" value="<%= item.id %>" hidden>
+                            <button class="delete-btn" type="submit">Delete</button>
+                        </form>
+                        
+                    </div>
+                </div>
+            <% }) %>
+        </div>
+
+        <!-- Insert Item Form -->
+        <div class="insert-form">
+            <h2>Add New Item</h2>
+            <form id="insertForm" action="/upload" method="post">
+                
+                <button type="submit">Add Item</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Insert Item
+        
+
+        // Update Item
+        function updateItem(id) {
+            const newCount = prompt("Enter new quantity:");
+            if (newCount !== null) {
+                fetch(`/cart/update/${id}`, {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ count: newCount })
+                }).then(() => location.reload());
+            }
+        }
+
+        // Delete Item
+        function deleteItem(id) {
+            if (confirm("Are you sure you want to remove this item?")) {
+                fetch(`/cart/delete/${id}`, {
+                    method: "DELETE"
+                }).then(() => location.reload());
+            }
+        }
+    </script>
+</body>
+</html>

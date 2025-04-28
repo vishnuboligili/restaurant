@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTP Verification</title>
+    <link rel="stylesheet" href="otp.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <style>
+        .err{
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <i class='bx bx-cloud'></i>
+        </header>
+        <h4>Enter your OTP</h4>
+        
+        <form action="/forgotcheck" method="POST">
+            <input type="hidden" name="email" value="<%= em %>">
+            <div class="input-field">
+                <input name="n1" type="text" inputmode="numeric" maxlength="1" autofocus />
+                <input name="n2" type="text" inputmode="numeric" maxlength="1" disabled />
+                <input name="n3" type="text" inputmode="numeric" maxlength="1" disabled />
+                <input name="n4" type="text" inputmode="numeric" maxlength="1" disabled />
+                <input name="n5" type="text" inputmode="numeric" maxlength="1" disabled />
+                <input name="n6" type="text" inputmode="numeric" maxlength="1" disabled />
+            </div>
+            <% if(error){ %>
+                <small class="err">Invalid OTP</small>
+            <% } %>
+            <button type="submit" disabled>Verify OTP</button>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+    const inputs = document.querySelectorAll(".input-field input");
+    const button = document.querySelector("button");
+
+    function checkInputs() {
+        const allFilled = Array.from(inputs).every(inp => inp.value.trim() !== "" && /^\d$/.test(inp.value));
+        
+        if (allFilled) {
+            button.classList.add("active"); // Enable button
+            button.removeAttribute("disabled"); 
+        } else {
+            button.classList.remove("active"); // Disable button
+            button.setAttribute("disabled", "true");
+        }
+    }
+
+    inputs.forEach((input, index) => {
+        input.addEventListener("input", (event) => {
+            const value = event.target.value;
+            const nextInput = inputs[index + 1];
+
+            // Allow only one digit (0-9)
+            if (!/^\d?$/.test(value)) {
+                event.target.value = "";
+                return;
+            }
+
+            // Move to next input if filled
+            if (value !== "" && nextInput) {
+                nextInput.removeAttribute("disabled");
+                nextInput.focus();
+            }
+
+            checkInputs();
+        });
+
+        input.addEventListener("keydown", (event) => {
+            const prevInput = inputs[index - 1];
+
+            // Handle Backspace
+            if (event.key === "Backspace") {
+                if (input.value === "" && prevInput) {
+                    prevInput.value = "";   // Clear previous input
+                    prevInput.focus();      // Move focus back
+                } else {
+                    input.value = "";  // Just clear the current input
+                }
+                checkInputs();
+            }
+        });
+    });
+
+    // Ensure the first input is always enabled
+    inputs[0].removeAttribute("disabled");
+    inputs[0].focus();
+});
+
+    </script><!-- Linking external JS -->
+</body>
+</html>

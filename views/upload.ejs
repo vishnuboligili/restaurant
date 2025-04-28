@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Dish - Restaurant Menu</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: "Arial", sans-serif;
+        }
+
+        body {
+            background-color: #FFA07A; /* Light Salmon */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .form-container {
+            background: #ffffff;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            width: 380px;
+            text-align: center;
+        }
+
+        .form-container h2 {
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 8px;
+            margin: 8px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .radio-group {
+            display: flex;
+            justify-content: space-around;
+            margin: 10px 0;
+        }
+
+        .radio-group label {
+            cursor: pointer;
+            font-size: 14px;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            background-color: #FFDAB9; /* Peach Puff */
+        }
+
+        .radio-group input[type="radio"] {
+            display: none;
+        }
+
+        .radio-group input[type="radio"]:checked + label {
+            background: #FF7F50; /* Coral */
+            color: white;
+            border-color: #FF7F50;
+        }
+
+        .biryani-container {
+            text-align: center;
+            margin-top: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .biryani-container label {
+            font-size: 16px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 25px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 25px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 4px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: #FFA500; /* Orange */
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(24px);
+        }
+
+        .button-container {
+            margin-top: 10px;
+        }
+
+        button {
+            width: 100%;
+            background: #FF7F50; /* Coral */
+            color: white;
+            padding: 10px;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            margin-bottom: 10px;
+        }
+
+        button:hover {
+            background: #FF6347; /* Tomato */
+        }
+
+        .home-btn {
+            background: #008CBA; /* Blue */
+        }
+
+        .home-btn:hover {
+            background: #0074A2; /* Darker Blue */
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="form-container">
+        <h2>Add Dish to Menu</h2>
+        <form action="/upload" method="POST" enctype="multipart/form-data">
+            <input type="text" name="name" value="<%= name || '' %>" placeholder="Dish Name" required>
+            <input type="hidden" name="id" value="<%= id || '' %>">
+
+            <p><strong>Category:</strong></p>
+            <div class="radio-group">
+                <input type="radio" id="Veg" name="category" value="Veg" required>
+                <label for="Veg">Veg</label>
+
+                <input type="radio" id="Non-Veg" name="category" value="Non-Veg" required>
+                <label for="Non-Veg">Non-Veg</label>
+            </div>
+
+            <input type="number" name="price" placeholder="Price" value="<%= price || '' %>" required step="0.01">
+
+            <p><strong>Type (Choose One):</strong></p>
+            <div class="radio-group">
+                <input type="radio" id="Chicken" name="type" value="Chicken">
+                <label for="Chicken">Chicken</label>
+
+                <input type="radio" id="Mutton" name="type" value="Mutton">
+                <label for="Mutton">Mutton</label>
+
+                <input type="radio" id="Seafood" name="type" value="Seafood">
+                <label for="Seafood">Seafood</label>
+            </div>
+
+            <input type="number" name="count" value="<%= count || '' %>" placeholder="Count" required min="0">
+
+            <div class="biryani-container">
+                <label for="biryani">Biryani:</label>
+                <label class="switch">
+                    <input type="checkbox" id="biryani" name="biryani" value="yes">
+                    <span class="slider"></span>
+                </label>
+            </div>
+
+            <div class="file-input">
+                <label>Upload Dish Image:</label>
+                <input type="file" name="image" accept="image/*">
+            </div>
+
+            <div class="button-container">
+                <button type="submit">Upload</button>
+                <button type="button" class="home-btn"><a href="/" style="text-decoration: none; color: white;">Home</a></button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        window.onload = function() {
+            let categoryVal = "<%= category || '' %>";
+            let typeVal = "<%= type || '' %>";
+            let biryaniValue = "<%= biryani === 'yes' ? 'true' : 'false' %>";
+
+            if (biryaniValue === 'true') {
+                document.getElementById("biryani").checked = true;
+            }
+
+            if (categoryVal && document.getElementById(categoryVal)) {
+                document.getElementById(categoryVal).checked = true;
+            }
+
+            if (typeVal && document.getElementById(typeVal)) {
+                document.getElementById(typeVal).checked = true;
+            }
+        };
+
+        document.querySelector("form").addEventListener("submit", function(event) {
+            let name = document.querySelector("input[name='name']").value.trim();
+            let category = document.querySelector("input[name='category']:checked");
+            // let type = document.querySelector("input[name='type']:checked");
+            let price = document.querySelector("input[name='price']").value.trim();
+            let count = document.querySelector("input[name='count']").value.trim();
+
+            let imageInput = document.querySelector("input[name='image']");
+
+            let existingImage = "<%= image ? image.trim() : '' %>";
+
+
+            if (!name || !category  || !price || !count ||(imageInput.files.length === 0 && existingImage.length === 0)) {
+                event.preventDefault();
+                alert("Please fill out all required fields.");
+            }
+        });
+    </script>
+
+</body>
+</html>

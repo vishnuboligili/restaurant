@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart</title>
+    <link rel="stylesheet" href="styles.css">
+    
+    <style>
+        /* 🌟 Page Background */
+        body {
+            background-color: #FFA07A; /* Set background color */
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+    
+        /* 🛒 Cart Items Container */
+        .cart-container {
+            width: 90%;
+            margin: auto;
+            padding: 20px;
+        }
+    
+        h2 {
+            text-align: center;
+            font-size: 28px;
+            font-weight: bold;
+            color: #222;
+            margin-bottom: 20px;
+        }
+    
+        /* 🏷️ Section Styling */
+        .section {
+            padding: 20px;
+            border-radius: 12px;
+            background: white;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 25px;
+        }
+    
+        h3 {
+            color: #333;
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+    
+        /* 🛒 Items Grid */
+        .items-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+    
+        /* 🏷️ Cart Item - Styled Card */
+        .item {
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 3px 3px 12px rgba(0, 0, 0, 0.15);
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            flex: 1 1 calc(25% - 20px); /* Default: 4 items per row */
+            max-width: 260px; /* Adjusted for better alignment */
+            min-height: 360px; /* Adjusted height */
+            border: 1px solid #ddd;
+            padding-bottom: 15px;
+        }
+    
+        .item:hover {
+            transform: scale(1.05);
+            box-shadow: 5px 5px 18px rgba(0, 0, 0, 0.2);
+        }
+    
+        /* 🖼️ Product Image - Full Card Width */
+        .item img {
+            width: 100%;
+            height: 160px; /* Slightly taller */
+            object-fit: cover;
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
+            display: block;
+        }
+    
+        /* 🏷️ Product Info */
+        .item-info {
+            font-size: 18px;
+            color: #444;
+            font-weight: bold;
+            margin: 12px 0;
+        }
+        
+        .item-info strong {
+            font-size: 20px;
+            color: #222;
+            margin: 10px;
+        }
+        .item-info p{
+            margin-bottom: 15px;
+        }
+        /* 🎨 Buttons - Better Spacing */
+        .btn-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px; /* Space between buttons */
+            align-items: center;
+            padding: 10px;
+        }
+    
+        .btn {
+            padding: 12px;
+            border: none;
+            cursor: pointer;
+            border-radius: 6px;
+            font-size: 15px;
+            transition: 0.3s;
+            width: 90%;
+            font-weight: bold;
+        }
+    
+        .buy-btn {
+            background-color: #ff9900;
+            color: white;
+            margin-bottom: 10px;
+        }
+    
+        .buy-btn:hover {
+            background-color: #e68a00;
+        }
+    
+        .delete-btn {
+            background-color: #dc3545;
+            color: white;
+        }
+    
+        .delete-btn:hover {
+            background-color: #c82333;
+        }
+    
+        /* 📦 Buy All Button */
+        .buy-all-btn {
+            background-color: #007bff;
+            color: white;
+            padding: 14px;
+            font-size: 18px;
+            border-radius: 8px;
+            display: block;
+            width: 100%;
+            font-weight: bold;
+        }
+    
+        .buy-all-btn:hover {
+            background-color: #0056b3;
+        }
+        /* 📦 Buy All Button - Added Space */
+        .buy-all-btn-container {
+            margin-top: 30px; /* Adds space between the last row of cards and the button */
+            text-align: center;
+        }
+
+        .alert {
+    padding: 15px;
+    margin: 15px auto;
+    width: 50%;
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 6px;
+}
+
+.success {
+    background-color: #28a745;
+    color: white;
+}
+
+.error {
+    background-color: #dc3545;
+    color: white;
+}
+.flash-container {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end; /* Align messages to the right */
+    gap: 10px; /* Space between messages */
+    width: auto; /* Prevent full-width */
+}
+
+.flash-message {
+    background-color: #4CAF50; /* Green for success */
+    color: white;
+    padding: 15px;
+    border-radius: 5px;
+    font-size: 16px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    transition: opacity 0.3s ease-in-out;
+    max-width: 300px; /* Limit width for better appearance */
+    text-align: center; /* Center text inside */
+}
+
+.flash-message.error {
+        background-color: hsl(0, 50%, 54%); /* Lighter Red for better contrast */
+    }
+
+        .close-btn {
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-left: 15px;
+            float: right;
+            color: white;
+            background: none;
+            border: none;
+        }
+        /* 💰 Total Amount Styling */
+        .total-amount {
+            font-size: 18px;
+            font-weight: bold;
+            color: #ff5733; /* Eye-catching color */
+            background-color: #fff3e6; /* Light background */
+            padding: 8px;
+            border-radius: 6px;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+        /* 💵 Total Amount Container */
+        .total-amount-container {
+            margin-top: 30px;
+            text-align: center;
+            background: #ffebcc; /* Light background for emphasis */
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        /* 💰 Grand Total Styling */
+        .grand-total {
+            font-size: 22px;
+            font-weight: bold;
+            color: #d9534f; /* Red for importance */
+        }
+        .progress-bar {
+        width: 100%;
+        height: 4px;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        animation: progressAnimation 5s linear forwards;
+    }
+    .back{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .back-button {
+    
+    margin-top: 15px;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    background-color: #ff4500;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out, transform 0.2s;
+}
+
+.back-button:hover {
+    background-color: #e63e00;
+    transform: scale(1.05);
+}
+
+
+    @keyframes progressAnimation {
+        from { width: 100%; }
+        to { width: 0%; }
+    }
+
+        /* 📱 Responsive Layout */
+        @media (max-width: 1200px) {  
+            .item { flex: 1 1 calc(33.33% - 20px); } /* 3 per row */
+        }
+    
+        @media (max-width: 768px) {  
+            .item { flex: 1 1 calc(50% - 20px); } /* 2 per row */
+        }
+    
+        @media (max-width: 480px) {  
+            .item { flex: 1 1 100%; } /* 1 per row */
+        }
+    </style>
+</head>
+<body>
+    <div class="flash-container">
+        <% if (successMessage) { %>
+            <div class="flash-message success">
+                <span class="close-btn" onclick="closeFlashMessage(this)">&times;</span>
+                <%= successMessage %>
+            </div>
+        <% } %>
+    
+        <% if (errorMessage) { %>
+            <div class="flash-message error">
+                <span class="close-btn" onclick="closeFlashMessage(this)">&times;</span>
+                <%= errorMessage %>
+            </div>
+        <% } %>
+    </div>
+    
+    <div class="cart-container">
+        <h2>Your Cart</h2>
+
+        <!-- Section for Available Items -->
+        <div class="section">
+            <h3>Available Items</h3>
+            <div class="items-container">
+                <% availableItems.forEach(item => { %>
+                    <div class="item">
+                        <img src="/uploads/<%= item.image %>" alt="<%= item.name %>">
+                        <div class="item-info">
+                            <strong><%= item.name %></strong><br>
+                            <p>Price: $<%= item.price %> | Quantity: <%= item.quantity %></p>
+                            <p class="total-amount">Total: $<%= (item.price * item.quantity).toFixed(2) %></p> <!-- Total Amount -->
+                        </div>
+                        <div>
+                            <form action="/cart/buy/<%= item.id %>" method="POST">
+                                <button type="submit" class="btn buy-btn">Buy Now</button>
+                            </form>
+                            <form action="/cart/delete/<%= item.id %>" method="POST">
+                                <button type="submit" class="btn delete-btn">Delete</button>
+                            </form>
+                        </div>
+                    </div>
+                <% }); %>
+            </div>
+            <% 
+                let totalAmount = 0;
+                availableItems.forEach(item => {
+                    totalAmount += item.price * item.quantity;
+                });
+            %>
+
+            <!-- Display Total Amount -->
+            <% if (availableItems.length > 0) { %>
+                <div class="total-amount-container">
+                    <h3>Total Amount: <span class="grand-total">$<%= totalAmount.toFixed(2) %></span></h3>
+                </div>
+
+                <div class="buy-all-btn-container">
+                    <form action="/cart/buy-all" method="POST">
+                        <button type="submit" class="btn buy-all-btn">Buy All Available Items</button>
+                    </form>
+                </div>
+            <% } %>
+
+            
+        </div>
+
+        <!-- Section for Unavailable Items -->
+        <div class="section">
+            <% if(unavailableItems.length>0) {%>
+                <h3>Unavailable Items (Out of Stock)</h3>
+            <% } %>
+            <div class="items-container">
+                <% unavailableItems.forEach(item => { %>
+                    <div class="item">
+                        <img src="/uploads/<%= item.image %>" alt="<%= item.name %>">
+                        <div class="item-info">
+                            <strong><%= item.name %></strong><br>
+                            <p>Price: $<%= item.price %> | Quantity: <%= item.quantity %> (Exceeds stock!)</p>
+                        </div>
+                        <form action="/cart/delete/<%= item.id %>" method="POST">
+                            <button type="submit" class="btn delete-btn">Delete</button>
+                        </form>
+                    </div>
+                <% }); %>
+            </div>
+        </div>
+        <div class="back"><button class="back-button" onclick="history.back()">⬅️ Go Back</button></div>
+        
+    </div>
+    <script>
+        function closeFlashMessage(element) {
+            const messageBox = element.parentElement;
+            messageBox.style.transition = "opacity 0.8s ease-in-out, transform 0.8s ease-in-out";
+            messageBox.style.opacity = "0"; // Fade out
+            messageBox.style.transform = "translateY(-20px)"; // Slide up
+            setTimeout(() => {
+                messageBox.remove(); // Remove from DOM
+            }, 800);
+        }
+    
+        // Auto-remove flash messages after 5 seconds with progress bar
+        window.addEventListener("DOMContentLoaded", () => {
+            document.querySelectorAll(".flash-message").forEach(messageBox => {
+                // Create progress bar
+                let progressBar = document.createElement("div");
+                progressBar.classList.add("progress-bar");
+    
+                // Set color based on message type
+                if (messageBox.classList.contains("success")) {
+                    progressBar.style.background = "#4CAF50"; /* Green */
+                } else if (messageBox.classList.contains("error")) {
+                    progressBar.style.background = "#FF7F7F"; /* Lighter Red */
+                }
+    
+                messageBox.appendChild(progressBar);
+    
+                // Start progress animation
+                setTimeout(() => {
+                    messageBox.style.transition = "opacity 0.8s ease-in-out, transform 0.8s ease-in-out";
+                    messageBox.style.opacity = "0"; // Fade out
+                    messageBox.style.transform = "translateY(-20px)"; // Slide up
+                    setTimeout(() => {
+                        messageBox.remove(); // Remove from DOM
+                    }, 800);
+                }, 5000); // 5 seconds delay before fade-out starts
+            });
+        });
+    </script>
+    
+</body>
+</html>

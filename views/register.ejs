@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link rel="stylesheet" href="/login.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <style>
+        .error {
+            color: red;
+            font-size: 14px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="login_form">
+            <form id="registerForm" action="/register" method="post">
+                <h1>Register</h1>
+                
+                <div class="input-box">
+                    <input type="text" id="username" name="username" placeholder="Username" required>
+                    <i class='bx bxs-user'></i>
+                    <small class="error" id="usernameError">Username is required</small>
+                    <% if(user){ %>
+                        <small><span class="error" id="usernameExists" style="display: block;">Username already Exists</span></small>
+                    <% } %>
+                </div>
+                
+                <div class="input-box">
+                    <input type="email" id="email" name="email" placeholder="Email" required>
+                    <i class='bx bxs-envelope'></i>
+                    <small class="error" id="emailError">Invalid Email</small>
+                    <% if(em){ %>
+                        <small><span class="error" id="emailExists" style="display: block;">Email already Exists</span></small>
+                    <% } %>
+                </div>
+                
+                <div class="input-box">
+                    <input type="password" id="password" name="password" placeholder="Password" required>
+                    <i class='bx bxs-lock-alt' id="close" onclick="togglePassword()"></i>
+                    <i class='bx bxs-lock-open-alt' id="open" onclick="togglePassword()" style="display: none;"></i>
+                    <small class="error" id="passwordError"></small>
+                </div>
+
+                <button type="submit" class="btn">Register</button>
+
+                <div class="forgot-link">
+                    <a href="/login">Already have an account?</a>
+                </div>
+                
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function togglePassword() {
+            const passwordField = document.getElementById("password");
+            const open = document.getElementById("open");
+            const close = document.getElementById("close");
+
+            if (passwordField.type === "password") {
+                passwordField.type = "text";  
+                open.style.display = "inline";
+                close.style.display = "none";
+            } else {
+                passwordField.type = "password";  
+                open.style.display = "none";
+                close.style.display = "inline";
+            }
+        }
+
+        document.getElementById("registerForm").addEventListener("submit", function(event) {
+            let isValid = true;
+
+            const username = document.getElementById("username").value.trim();
+            const email = document.getElementById("email").value.trim();
+            const password = document.getElementById("password").value.trim();
+            const usernameError = document.getElementById("usernameError");
+            const emailError = document.getElementById("emailError");
+            const passwordError = document.getElementById("passwordError");
+
+            // Reset errors before validation
+            usernameError.style.display = "none";
+            emailError.style.display = "none";
+            passwordError.style.display = "none";
+            passwordError.innerHTML = "";
+
+            // Username Validation
+            if (username === "") {
+                usernameError.style.display = "block";
+                isValid = false;
+            }
+
+            // Email Validation
+            const emailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
+
+
+            if (isValid && !emailRegex.test(email)) {
+                emailError.style.display = "block";
+                isValid = false;
+            }
+
+            // Password Validation
+            let errorMessage = "";
+            if (isValid && password.length < 8) {
+                errorMessage += "Password must be at least 8 characters long.<br>";
+                isValid = false;
+            }
+            if (isValid && !/[A-Z]/.test(password)) {
+                errorMessage += "Password must contain at least one uppercase letter.<br>";
+                isValid = false;
+            }
+            if (isValid && !/[a-z]/.test(password)) {
+                errorMessage += "Password must contain at least one lowercase letter.<br>";
+                isValid = false;
+            }
+            if (isValid && !/\d/.test(password)) {
+                errorMessage += "Password must contain at least one number.<br>";
+                isValid = false;
+            }
+            if (isValid && !/[$#@!&?]/.test(password)) {
+                errorMessage += "Password must contain at least one special character ($#@!&?).<br>";
+                isValid = false;
+            }
+
+            if (errorMessage) {
+                passwordError.innerHTML = errorMessage;
+                passwordError.style.display = "block";
+            }
+
+            if (!isValid) {
+                event.preventDefault();  // Stop form submission if validation fails
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staff Management</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Staff Container */
+        .staff-container {
+            max-width: 900px;
+            margin: 30px auto;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        h1, h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        /* Staff List */
+        .staff-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .staff-member {
+            display: flex;
+            align-items: center;
+            background: #fff;
+            border-radius: 12px;
+            padding: 18px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            justify-content: space-between;
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .staff-member:hover {
+            transform: scale(1.03);
+        }
+
+        /* Staff Image */
+        .staff-member img {
+            width: 110px;
+            height: 110px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-right: 18px;
+            border: 3px solid #ddd;
+        }
+
+        /* Staff Details */
+        .staff-details {
+            flex-grow: 1;
+        }
+
+        .staff-details h2 {
+            font-size: 20px;
+            margin: 0;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .gender, .experience {
+            font-size: 15px;
+            color: #666;
+        }
+
+        /* Action Buttons */
+        .actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        button {
+            padding: 10px 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: bold;
+            transition: background 0.2s ease-in-out, transform 0.1s;
+        }
+
+        /* Update Button */
+        .update-btn {
+            background-color: #ffc107;
+            color: black;
+        }
+
+        .update-btn:hover {
+            background-color: #e0a800;
+            transform: scale(1.07);
+        }
+
+        /* Delete Button */
+        .delete-btn {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .delete-btn:hover {
+            background-color: #c82333;
+            transform: scale(1.07);
+        }
+
+        /* Insert Staff Form */
+        .insert-form {
+            margin-top: 35px;
+            text-align: center;
+            background: #fff;
+            padding: 22px;
+            border-radius: 12px;
+            box-shadow: 0 5px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .insert-form input {
+            width: calc(100% - 20px);
+            padding: 12px;
+            margin: 10px 0;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+
+        .insert-form button {
+            background-color: #007bff;
+            color: white;
+            padding: 14px 18px;
+            font-size: 17px;
+        }
+
+        .insert-form button:hover {
+            background-color: #0056b3;
+            transform: scale(1.07);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            .staff-member {
+                flex-direction: column;
+                text-align: center;
+                padding: 18px;
+            }
+
+            .staff-member img {
+                margin-bottom: 12px;
+                width: 120px;
+                height: 120px;
+            }
+
+            .actions {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="staff-container">
+        <h1>Staff Management</h1>
+        <div class="staff-list">
+            <% staff.forEach(member => { %>
+                <div class="staff-member">
+                    <img src="/uploads/<%= member.image %>" alt="<%= member.name %>">
+                    <div class="staff-details">
+                        <h2><%= member.name %></h2>
+                        <p class="gender"><strong>Gender: </strong><%= member.gender %></p>
+                        <p class="experience"><strong>Job Role: </strong><%= member.role %></p>
+                    </div>
+                    <div class="actions">
+                        <form action="/admin/staff/update" method="post">
+                            <input type="hidden" name="id" value="<%= member.id %>">
+                            <button class="update-btn" type="submit">Update</button>
+                        </form>
+                        <form action="/admin/staff/delete" method="post">
+                            <input type="hidden" name="id" value="<%= member.id %>">
+                            <button class="delete-btn" type="submit">Delete</button>
+                        </form>
+                    </div>
+                </div>
+            <% }) %>
+        </div>
+
+        <!-- Add New Staff Form -->
+        <div class="insert-form">
+            <h2>Add New Staff</h2>
+            <form action="/admin/staff/add" method="post" enctype="multipart/form-data">
+                
+                <button type="submit">Add Staff</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
