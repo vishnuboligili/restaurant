@@ -1,0 +1,104 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+*{
+    
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+body{
+    background: #FFA07A;
+    display: flex;
+    min-height: 100vh;
+    align-items: center;
+    justify-content: center;
+    
+}
+.container{
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 90%;
+}
+.container .edit-bar{
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    background: #fff;
+    margin-top: 10px;
+}
+
+ .photo svg {
+    margin-top: 20px;
+    height: 120px;
+    width: 120px;
+    border-radius: 50%;
+    /* object-fit: cover; */
+    color: #2e4053;
+    margin-bottom: 40px;
+    transition: transform 0.3s ease-in-out;
+}
+
+ .photo svg:hover {
+    transform: scale(1.05);
+     /* Increases size by 5% without affecting layout */
+}
+form {
+    width: 30%;
+    text-align: center;
+}
+form input {
+    padding: 5px;
+    width: 95%;
+    text-align: center;
+    margin: 15px;
+    background: #f0f3f4;
+    border-radius: 10px;
+    font-size: 1.1rem; /* Keeps the font size fixed */
+    border: none;
+    outline: none;
+    transition: box-shadow 0.3s ease-in-out;
+}
+
+form input:hover {
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.2); /* Subtle shadow effect */
+}
+
+.btns {
+    margin: 20px;
+    width: 100%;
+    display: inline-flex;
+    /* align-items: center; */
+    justify-content: center;
+    gap: 40px;
+    padding: 10px;
+}
+.btns button{
+    background: #ff6347;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    /* width: ; */
+}
+.btns button:hover{
+    background-color:#ff4500 ;
+}
+.cancel-btn {
+    display: inline-block;
+    padding: 8px 15px;
+    background: #ff6347;
+    color: white;
+    border-radius: 10px;
+    text-decoration: none;
+    text-align: center;
+}
+.cancel-btn:hover {
+    background: #ff4500;
+}
+

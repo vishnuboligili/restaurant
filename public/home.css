@@ -1,0 +1,103 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+body{
+    min-height: 100vh;
+    /* background-image: url('/home/rguktrkvalley/Music/vishnu/java/WebDevelopment/Acss/amazon/nav/drop-of-water-597109_1280.jpg'); */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #FFA07A;
+}
+nav {
+    background-color: #1a1a1a; /* Dark and classy */
+    color: white;
+  }
+nav ul{
+    width: 100%;
+    display: flex;
+    list-style: none;
+    justify-content: center;
+    align-items: center;
+} 
+nav li{
+    height: 50px;
+} 
+nav a{
+    height: 100%;
+    text-decoration: none;
+    padding: 0px 30px;
+    color: white;
+    display: flex;
+    align-items: center;
+}
+nav a.ho:hover {
+    background-color: #333;
+}
+nav a .signin{
+    height: 70%;
+    width: 100%;
+    background: rgb(49, 49, 145);
+    border-radius: 10px;
+    padding: 0;
+    
+}
+nav a .signin:hover{
+    background-color: rgb(25, 25, 136);
+}
+nav a .signin .si{
+    margin-top: 7px;
+}
+nav li:first-child{
+    margin-right: auto;
+}
+.sidebar{
+    
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    height: 100vh;
+    width: 250px;
+    z-index: 999;
+    background-color: #1a1a1a;
+    backdrop-filter: blur(10px);
+    box-shadow: -10px 0 -10px rgba(0,0,0,0.1);
+    display: none;
+    flex-direction: column;
+    align-items: start;
+    justify-content: start;
+}
+.sidebar li{
+    width: 100%;
+}
+.sidebar a{
+    width: 100%;
+}
+.menu-button{
+    display: none;
+}
+@media (max-width:1000px) {
+    .sidebar{
+        display: none;
+    }
+}
+@media (max-width:920px) {
+    .hidemobile{
+        display: none;
+    }
+    .menu-button{
+        display: block;
+    }
+}
+@media (max-width:400px) {
+    .sidebar{
+        width: 100%;
+    }
+}
+  
+  
+  
